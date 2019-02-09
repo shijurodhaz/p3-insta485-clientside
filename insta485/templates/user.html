@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<div style="width:60%;margin: 0px auto">
+  <p style="font-size:40px">{{ username }}</p>
+  <p style="font-size:30px">{{ following_status }}</p>
+  {% if own_page  %}
+  	<p style="font-size:30px">{{ following_status }}
+   	   <a href="/accounts/edit/" style="text-decoration:none;color:black">
+		Edit profile
+	   </a>
+		|
+	   <a href="/accounts/logout/" style="text-decoration:none;color:black">
+		logout
+	   </a>
+
+	</p>
+  {% else  %}
+	{% if user_follows  %}
+		<!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
+		<form action="" method="post" enctype="multipart/form-data">
+		  <input type="submit" name="unfollow" value="unfollow"/>
+		  <input type="hidden" name="username" value="{{ username  }}"/>
+		</form>
+	{% else  %}
+		<!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
+		<form action="" method="post" enctype="multipart/form-data">
+		  <input type="submit" name="follow" value="follow"/>
+		  <input type="hidden" name="username" value="{{ username  }}"/>
+		</form>
+
+	{% endif  %}
+  {% endif  %}
+  <p style="font-size:20px">{{ total_posts }}
+    {% if total_posts is equalto 1 %}
+      post
+    {% else %}
+      posts
+    {% endif %}
+    <b>{{ followers }}
+    <a href="/u/{{ username }}/followers/" style="text-decoration:none;color:black">
+      {% if followers is equalto 1 %}
+        follower
+      {% else %}
+        followers
+      {% endif %}
+    </a>
+    {{ following }}
+    <a href="/u/{{ username }}/following/" style="text-decoration:none;color:black">
+      following
+    </a>
+  </b></p>
+  <p style="font-size:20px">{{ fullname }}</p>
+
+  {% if own_page  %}
+
+	  <!-- DO NOT CHANGE THIS -->
+      <form action="" method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <input type="submit" name="create_post" value="upload new post"/>
+      </form>
+
+  {% endif  %}
+
+  {% if total_posts > 0 %}
+    <table style="width:100%;margin: 0px auto">
+      <tr>
+
+        {% for post in posts %}
+        <td>
+          <a href="/p/{{ post['postid'] }}/" style="text-decoration:none;color:black">
+            <img src="{{ url_for('show_image', img_url = post['img_url']) }}" style="width:100%;" alt="image">
+          </a>
+        </td>
+        {% endfor %}
+      </tr>
+    </table>
+  {% endif %}
+
+</div>
+{% endblock %}

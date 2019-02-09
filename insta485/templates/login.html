@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+  
+{% block content %}
+<form action="" method="post" enctype="multipart/form-data">
+    Name:
+    <input type="text" name="username"/><br>
+      Password:
+    <input type="password" name="password"/><br>
+    <input type="submit" value="login"/>
+</form>
+<p>
+    Don't have an account?
+    <a href="/accounts/create/">
+        <b>Sign up</b>
+    </a>
+</p>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+  
+{% block content %}
+<form action="" method="post" enctype="multipart/form-data">
+    Photo:
+    <input type="file" name="file">
+    Full Name:
+    <input type="text" name="fullname"/>
+    Username:
+    <input type="text" name="username"/>
+    Email:
+    <input type="text" name="email"/>
+    Password:
+    <input type="password" name="password"/>
+    <input type="submit" name="signup" value="sign up"/>
+</form>
+<p>
+    Have an account?
+    <a href="/accounts/login/">
+        <b>Log in</b>
+    </a>
+</p>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+  
+{% block content %}
+<img src="{{url_for('show_image', img_url = file)}}" style="height:50px;width:50px;" alt="User Pic">{{logname}}<br>
+<!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
+<br>
+<form action="" method="post" enctype="multipart/form-data">
+    Photo <input type="file" name="file">
+    Name <input type="text" name="fullname" value="{{name}}"/>
+    Email <input type="text" name="email" value="{{email}}"/>
+    <input type="submit" name="update" value="submit"/>
+</form>
+<p>
+    <a href="/accounts/password/">
+        <b>Change password</b>
+    </a>
+</p>
+<p>
+    <a href="/accounts/delete/">
+        <b>Delete account</b>
+    </a>
+</p>
+{% endblock %}

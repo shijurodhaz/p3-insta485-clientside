@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h3>Followers</h3>
+    {% for profile in followers %}
+    <table style="border: 1px solid black;padding: 5px;margin: 0px auto;width:100%">
+        <tr>
+            <td style="width:30px;height:40px">
+                <img src="{{ url_for('show_image', img_url = profile['user_img_url']) }}" style="height:40px;width:30px" alt="image">
+            </td>
+            <td style="text-align:left;font-size:20px">
+                <a href="/u/{{ profile['username'] }}/" style="text-decoration:none;color:black">
+                <b>{{ profile['username'] }}</b>
+                </a>
+            </td>
+            {% if profile['logname_follows_username'] %}
+            <td style="font-size:20px;text-align:right">
+                following
+            </td>
+            {% elif profile['username'] is not equalto logname %}
+            <td style="font-size:20px;text-align:right">
+                not following
+            </td>
+            {% endif %}
+            {% if profile['logname_follows_username'] %}
+            <td>
+                <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
+                <form action="" method="post" enctype="multipart/form-data">
+                    <input type="submit" name="unfollow" value="unfollow"/>
+                    <input type="hidden" name="username" value="{{ profile['username']  }}"/>
+                </form>
+            </td>
+            {% elif profile['username'] is not equalto logname %}
+            <td>
+                <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
+                <form action="" method="post" enctype="multipart/form-data">
+                    <input type="submit" name="follow" value="follow"/>
+                    <input type="hidden" name="username" value="{{ profile['username']  }}"/>
+                </form>
+            </td>
+            {% endif %}
+        </tr>
+    </table>
+
+    <br>
+    <br>
+
+    {% endfor %}
+{% endblock %}

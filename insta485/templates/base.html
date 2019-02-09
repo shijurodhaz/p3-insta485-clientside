@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Insta485</title>
+</head>
+
+<body>
+
+
+  <table style="width:75%;border-bottom: 1px solid black;margin: 0px auto">
+    <tr>
+      <td style="font-size:50px">
+        <a href= "/" style="text-decoration:none;color:black">
+          <img src="/images/logo.png" style="height:50px;width:50px;float:left" alt="Logo">| Insta485
+        </a>
+      </td>
+      {% if logname != '' %}
+      <td style="text-align:right">
+        <b>
+            <a href="/explore/" style="text-decoration:none;color:black">
+                explore
+            </a>
+        </b>
+           | 
+        <b>
+            <a href="/u/{{ logname }}/" style="text-decoration:none;color:black">
+                {{ logname }}
+            </a>
+        </b>
+      </td>
+      {% endif %}
+    </tr>
+  </table>
+
+<br>
+
+<div>{% block content %}{% endblock %}</div>
+
+
+</body>
+
+
+</html>
