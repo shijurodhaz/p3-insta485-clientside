@@ -1,70 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-  {% for post in posts %}
-  <div style="width:60%;border: 1px solid black;margin: 0px auto">
-    <table style="width:100%;margin: 0px auto;padding:30px">
-      <tr>
-        <td style="width:50px">
-          <a href="/u/{{ post['owner'] }}/" style="text-decoration:none;color:black">
-            <img src="{{ url_for('show_image', img_url = post['owner_img_url']) }}" style="height:50px;width:50px;float:left" alt="image">
-          </a>
-        </td>
-        <td style="font-size:20px">
-          <a href="/u/{{ post['owner'] }}/" style="text-decoration:none;color:black">
-            <b>{{ post['owner'] }}</b>
-          </a>
-        </td>
-        <td style="font-size:20px;text-align:right">
-          <a href="/p/{{ post['postid'] }}/" style="text-decoration:none;color:black">{{ post['timestamp'] }}</a>
-        </td>
-      </tr>
-
-    </table>
-    <img src="{{ url_for('show_image', img_url = post['img_url']) }}" alt="image" style="width:100%">
-
-    <p style="margin-left:10px"> {{ post['likes'] }}
-      {% if post['likes'] is equalto 1 %}
-        like
-      {% else %}
-        likes
-      {% endif %}</p>
-
-
-    {% for comment in post['comments'] %}
-      <p style="margin-left:10px">
-        <a href="/u/{{ comment['owner'] }}/" style="text-decoration:none;color:black">
-          <b>{{ comment['owner'] }}</b>
-        </a>
-        {{ comment['text'] }}
-      </p>
-    {% endfor %}
-  
-  {% if post['liked'] %}
-    <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
-    <form action="" method="post" enctype="multipart/form-data">
-      <input type="hidden" name="postid" value="{{ post['postid']  }}"/>
-      <input type="submit" name="unlike" value="unlike"/>
-    </form>
-  {% else %}
-    <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
-    <form action="" method="post" enctype="multipart/form-data">
-      <input type="hidden" name="postid" value="{{ post['postid'] }}"/>
-      <input type="submit" name="like" value="like"/>
-    </form>
-  {% endif %}
-
-  <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
-  <form action="" method="post" enctype="multipart/form-data">
-    <input type="hidden" name="postid" value="{{ post['postid']  }}"/>
-    <input type="text" name="text"/>
-    <input type="submit" name="comment" value="comment"/>
-  </form>
-
-  </div>
-
-  <br>
-  {% endfor %}
+<div id="reactEntry">
+    Loading ...
+</div>
+  <!-- Load JavaScript -->
+<script type="text/javascript" src="{{ url_for('static', filename='js/bundle.js') }}"></script>
 
 {% endblock %}
