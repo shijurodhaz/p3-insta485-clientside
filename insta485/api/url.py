@@ -13,6 +13,7 @@ def get_url():
         "url": "/api/v1/"
     }
     """
+    context = {}
     context["posts"] = "/api/v1/p/"
     context["url"] = "/api/v1/"
 
