@@ -17,9 +17,9 @@ def get_n_posts(size=10, page=0):
 
     SELECT posts.postid AS postid
     FROM posts
-    WHERE posts.owner = ?;
+    WHERE posts.owner = ?
 
-    ORDER BY postid  DESC;
+    ORDER BY postid  DESC
     LIMIT ? OFFSET ?
     '''                                                                            
     results = insta485.model.query_db(query,
@@ -29,16 +29,17 @@ def get_n_posts(size=10, page=0):
         
     url = '/api/v1/p/'
     for result in results:
-        result['url'] =  url + result['postid'] + '/'
+        result['url'] =  url + str(result['postid']) + '/'
 
     return results
                                                                                    
 @insta485.app.route('/api/v1/p/', methods=["GET"])
 def get_posts():
     """Return the 10 newest posts."""
+    print(flask.request.query_string);
     context = {}
     results = get_n_posts()
-    if(len(results) > size):
+    if(len(results) > 10):
         results = results[:-1]
     context['results'] = results
     context['url'] = "/api/v1/p/"
