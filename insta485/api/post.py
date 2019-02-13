@@ -38,6 +38,8 @@ def get_multiple_posts():
     """Return the n newest posts on page p."""
     size = flask.request.args.get("size", default=10, type=int)
     page = flask.request.args.get("page", default=0, type=int)
+    if size < 0 or page < 0:
+        return flask.abort(400)
     context = {}
     results = get_n_posts(size, page)
     context['next'] = ""
@@ -47,5 +49,4 @@ def get_multiple_posts():
         context["next"] = "/api/v1/p/?size=" + str(size) + "&page=" + str(page)
     context['results'] = results
     context['url'] = "/api/v1/p/"
-    context['next'] = "" #CHECK
     return flask.jsonify(**context)
