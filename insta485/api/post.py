@@ -36,9 +36,13 @@ def get_n_posts(size=10, page=0):
 @insta485.app.route('/api/v1/p/', methods=["GET"])
 def get_multiple_posts():
     """Return the n newest posts on page p."""
+    context = {}
     size = flask.request.args.get("size", default=10, type=int)
     page = flask.request.args.get("page", default=0, type=int)
-    context = {}
+    if size < 0 or page < 0:
+        context['message'] = "Bad Request"
+        context['status_code'] = 400
+        return flask.jsonify(**context), 400
     results = get_n_posts(size, page)
     context['next'] = ""
     if(len(results) > size):

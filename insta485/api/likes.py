@@ -3,7 +3,7 @@ import flask
 import insta485
 
 
-@insta485.app.route('/api/v1/p/<int:postid_url_slug>/likes/', methods=["GET"])
+@insta485.app.route('/api/v1/p/<int:postid_url_slug>/likes/', methods=["GET", "DELETE", "POST"])
 def get_likes(postid_url_slug):
     """Return likes on postid.
 
@@ -15,41 +15,90 @@ def get_likes(postid_url_slug):
       "url": "/api/v1/p/1/likes/"
     }
     """
-    if "username" not in flask.session:
-        flask.abort(403)
-
-    # User
-    logname = flask.session["username"]
     context = {}
+    if "username" not in flask.session:
+        context['message'] = "Forbidden"
+        context['status_code'] = 403
+        return flask.jsonify(**context), 403
 
-    # url
-    context["url"] = flask.request.path
-
-    # Post
     postid = postid_url_slug
-    context["postid"] = postid
+    logname = flask.session["username"]
 
-    # Did this user like this post?
-    connection = insta485.model.get_db()
-    cur = connection.execute(
-        "SELECT EXISTS( "
-        "  SELECT 1 FROM likes "
-        "    WHERE postid = ? "
-        "    AND owner = ? "
-        "    LIMIT 1"
-        ") AS logname_likes_this ",
-        (postid, logname)
-    )
-    logname_likes_this = cur.fetchone()
-    context.update(logname_likes_this)
+    if flask.request.method == 'GET':
+        # url
+        context["url"] = flask.request.path
 
-    # Likes
-    cur = connection.execute(
-        "SELECT COUNT(*) AS likes_count FROM likes WHERE postid = ? ",
-        (postid,)
-    )
-    likes_count = cur.fetchone()
-    context.update(likes_count)
+        # Post
+        context["postid"] = postid
 
-    return flask.jsonify(**context)
-    
+        # Did this user like this post?
+        connection = insta485.model.get_db()
+        cur = connection.execute(
+            "SELECT EXISTS( "
+            "  SELECT 1 FROM likes "
+            "    WHERE postid = ? "
+            "    AND owner = ? "
+            "    LIMIT 1"
+            ") AS logname_likes_this ",
+            (postid, logname)
+        )
+        logname_likes_this = cur.fetchone()
+        context.update(logname_likes_this)
+
+        # Likes
+        cur = connection.execute(
+            "SELECT COUNT(*) AS likes_count FROM likes WHERE postid = ? ",
+            (postid,)
+        )
+        likes_count = cur.fetchone()
+        context.update(likes_count)
+
+        return flask.jsonify(**context)
+
+    if flask.request.method == "DELETE":
+        # query = '''
+        # SELECT owner
+        # FROM posts
+        # WHERE postid = ?
+        # '''
+        # results = insta485.model.query_db(query,
+        #                                   (postid))
+        # if results[0]['owner'] != logname:
+        #     return flask.abort(403)
+
+        query = '''
+        DELETE 
+        FROM likes
+        WHERE postid = ?
+        AND owner = ?;
+        '''
+        results = insta485.model.query_db(query,
+                                          (postid, logname,))
+        return flask.jsonify({}), 204
+
+    if flask.request.method == "POST":
+        query = '''
+        SELECT *
+        FROM likes
+        WHERE owner = ? 
+        AND postid = ?;
+        '''
+
+        results = insta485.model.query_db(query, (logname, postid,))
+
+        if results:
+            context['logname'] = logname
+            context['message'] = "Conflict"
+            context['postid'] = postid
+            context['status_code'] = 409
+            return flask.jsonify(**context),409
+
+        query = '''
+        INSERT INTO likes(owner, postid)
+        VALUES(?, ?);
+        '''
+        insta485.model.query_db(query,
+                                (logname, postid,))
+        context['logname'] = logname
+        context['postid'] = postid
+        return flask.jsonify(**context), 201
