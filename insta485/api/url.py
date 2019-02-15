@@ -15,8 +15,8 @@ def get_url():
     """
     context = {}
     if "username" not in flask.session:
-        context['message'] = "Forbidden"
         context['status_code'] = 403
+        context['message'] = "Forbidden"
         return flask.jsonify(**context), 403
     context["posts"] = "/api/v1/p/"
     context["url"] = "/api/v1/"

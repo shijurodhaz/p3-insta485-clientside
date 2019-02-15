@@ -102,10 +102,6 @@ def get_likes(postid_url_slug):
         '''
         insta485.model.query_db(query,
                                 (logname, postid,))
-        context['logname'] = logname
-        context['postid'] = postid
-        return flask.jsonify(**context), 201
-
-    context['message'] = "Bad Request"
-    context['status_code'] = 400
-    return flask.jsonify(**context), 400
+    context['logname'] = logname
+    context['postid'] = postid
+    return flask.jsonify(**context), 201
