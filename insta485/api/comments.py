@@ -23,6 +23,10 @@ def handle_post(postid):
 def get_comments(postid_url_slug):
     """Return a list of comments for this post"""
     context = {}
+    if "username" not in flask.session:
+        context['message'] = "Forbidden"
+        context['status_code'] = 403
+        return flask.jsonify(**context), 403
     query = '''
     SELECT * FROM posts WHERE postid=?
     '''

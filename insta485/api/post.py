@@ -21,22 +21,27 @@ def get_n_posts(size=10, page=0):
 
     ORDER BY postid  DESC
     LIMIT ? OFFSET ?
-    '''                                                                            
+    '''
     results = insta485.model.query_db(query,
                                       (flask.session['username'],
                                        flask.session['username'],
                                        size + 1, offset))
-        
+
     url = '/api/v1/p/'
     for result in results:
-        result['url'] =  url + str(result['postid']) + '/'
+        result['url'] = url + str(result['postid']) + '/'
 
     return results
-                                                                                   
+
+
 @insta485.app.route('/api/v1/p/', methods=["GET"])
 def get_multiple_posts():
     """Return the n newest posts on page p."""
     context = {}
+    if "username" not in flask.session:
+        context['message'] = "Forbidden"
+        context['status_code'] = 403
+        return flask.jsonify(**context), 403
     size = flask.request.args.get("size", default=10, type=int)
     page = flask.request.args.get("page", default=0, type=int)
     if size < 0 or page < 0:
@@ -45,7 +50,7 @@ def get_multiple_posts():
         return flask.jsonify(**context), 400
     results = get_n_posts(size, page)
     context['next'] = ""
-    if(len(results) > size):
+    if len(results) > size:
         results = results[:-1]
         page += 1
         context["next"] = "/api/v1/p/?size=" + str(size) + "&page=" + str(page)
