@@ -38,7 +38,6 @@ def get_post(postid_url_slug):
     FROM posts
     WHERE postid = ?;
     '''
-    print(postid)
     results = insta485.model.query_db(query, (postid,))
     if not results:
         context['message'] = "Not Found"

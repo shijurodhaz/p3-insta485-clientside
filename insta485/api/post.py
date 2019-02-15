@@ -51,5 +51,4 @@ def get_multiple_posts():
         context["next"] = "/api/v1/p/?size=" + str(size) + "&page=" + str(page)
     context['results'] = results
     context['url'] = "/api/v1/p/"
-    context['next'] = "" #CHECK
     return flask.jsonify(**context)
