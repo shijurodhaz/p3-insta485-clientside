@@ -5,7 +5,7 @@ import insta485
 
 @insta485.app.route('/api/v1/p/<int:postid_url_slug>/likes/', methods=["GET", "DELETE", "POST"])
 def get_likes(postid_url_slug):
-    """Return likes on postid.
+    """Shows and changes likes on postid.
 
     Example:
     {
@@ -54,28 +54,18 @@ def get_likes(postid_url_slug):
         likes_count = cur.fetchone()
         context.update(likes_count)
 
-        return flask.jsonify(**context)
+        return flask.jsonify(**context), 200
 
     if flask.request.method == "DELETE":
-        # query = '''
-        # SELECT owner
-        # FROM posts
-        # WHERE postid = ?
-        # '''
-        # results = insta485.model.query_db(query,
-        #                                   (postid))
-        # if results[0]['owner'] != logname:
-        #     return flask.abort(403)
-
         query = '''
         DELETE 
         FROM likes
         WHERE postid = ?
         AND owner = ?;
         '''
-        results = insta485.model.query_db(query,
-                                          (postid, logname,))
-        return flask.jsonify({}), 204
+        insta485.model.query_db(query,
+                                (postid, logname,))
+        return flask.jsonify(**context), 204
 
     if flask.request.method == "POST":
         query = '''
@@ -92,7 +82,7 @@ def get_likes(postid_url_slug):
             context['message'] = "Conflict"
             context['postid'] = postid
             context['status_code'] = 409
-            return flask.jsonify(**context),409
+            #return flask.jsonify(**context), 409
 
         query = '''
         INSERT INTO likes(owner, postid)
@@ -103,3 +93,7 @@ def get_likes(postid_url_slug):
         context['logname'] = logname
         context['postid'] = postid
         return flask.jsonify(**context), 201
+
+    context['message'] = "Bad Request"
+    context['status_code'] = 400
+    return flask.jsonify(**context), 400
