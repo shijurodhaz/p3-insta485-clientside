@@ -4,7 +4,7 @@ import insta485
 
 
 def get_n_posts(size=10, page=0):
-    """Helper function to get posts from size and page."""
+    """Get posts from size and page."""
     offset = page * size
     query = '''
     SELECT

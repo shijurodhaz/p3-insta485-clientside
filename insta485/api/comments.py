@@ -1,10 +1,10 @@
-"""REST API for Comments"""
+"""REST API for Comments."""
 import flask
 import insta485
 
 
 def handle_post(postid):
-    """Handle post requests for this endpoint"""
+    """Handle post requests for this endpoint."""
     data = flask.request.get_json()
     if 'text' in data:
         query = '''
@@ -21,7 +21,7 @@ def handle_post(postid):
 @insta485.app.route('/api/v1/p/<int:postid_url_slug>/comments/',
                     methods=['GET', 'POST'])
 def get_comments(postid_url_slug):
-    """Return a list of comments for this post"""
+    """Return a list of comments for this post."""
     context = {}
     if "username" not in flask.session:
         context['message'] = "Forbidden"
