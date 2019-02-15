@@ -24,9 +24,6 @@ def get_post(postid_url_slug):
         context['status_code'] = 403
         return flask.jsonify(**context), 403
 
-    # User
-    logname = flask.session["username"]
-
     # url
     context["url"] = flask.request.path
 
@@ -55,7 +52,6 @@ def get_post(postid_url_slug):
     FROM users
     WHERE username = ?;
     '''
-    print(results[0]['owner'])
     user_prof = insta485.model.query_db(query, (results[0]['owner'],))
     context['owner_img_url'] = "/uploads/" + user_prof[0]['filename']
 
