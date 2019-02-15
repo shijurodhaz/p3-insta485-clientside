@@ -26,6 +26,17 @@ def get_likes(postid_url_slug):
     postid = postid_url_slug
     logname = flask.session["username"]
 
+    query = '''
+    SELECT *
+    FROM posts
+    WHERE postid = ?;
+    '''
+    results = insta485.model.query_db(query, (postid,))
+    if not results:
+        context['message'] = "Not Found"
+        context['status_code'] = 404
+        return flask.jsonify(**context), 404
+
     if flask.request.method == 'GET':
         # url
         context["url"] = flask.request.path
