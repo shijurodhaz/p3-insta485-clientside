@@ -22,4 +22,3 @@ def get_url():
     context["url"] = "/api/v1/"
 
     return flask.jsonify(**context)
-    
