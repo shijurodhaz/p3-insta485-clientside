@@ -2,6 +2,7 @@
 import flask
 import insta485
 
+
 @insta485.app.route('/api/v1/p/<int:postid_url_slug>/', methods=["GET"])
 def get_post(postid_url_slug):
     """Return likes on postid.
@@ -11,7 +12,8 @@ def get_post(postid_url_slug):
         "age": "2017-09-28 04:33:28",
         "img_url": "/uploads/9887e06812ef434d291e4936417d125cd594b38a.jpg",
         "owner": "awdeorio",
-        "owner_img_url": "/uploads/e1a7c5c32973862ee15173b0259e3efdb6a391af.jpg",
+        "owner_img_url":
+            "/uploads/e1a7c5c32973862ee15173b0259e3efdb6a391af.jpg",
         "owner_show_url": "/u/awdeorio/",
         "post_show_url": "/p/3/",
         "url": "/api/v1/p/3/"

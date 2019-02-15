@@ -3,9 +3,10 @@ import flask
 import insta485
 
 
-@insta485.app.route('/api/v1/p/<int:postid_url_slug>/likes/', methods=["GET", "DELETE", "POST"])
+@insta485.app.route('/api/v1/p/<int:postid_url_slug>/likes/',
+                    methods=["GET", "DELETE", "POST"])
 def get_likes(postid_url_slug):
-    """Shows and changes likes on postid.
+    """Show and change likes on postid.
 
     Example:
     {
@@ -16,7 +17,7 @@ def get_likes(postid_url_slug):
     }
     """
     context = {}
-    #TODO
+    # TODO
     if "username" not in flask.session:
         context['message'] = "Forbidden"
         context['status_code'] = 403
@@ -58,7 +59,7 @@ def get_likes(postid_url_slug):
 
     if flask.request.method == "DELETE":
         query = '''
-        DELETE 
+        DELETE
         FROM likes
         WHERE postid = ?
         AND owner = ?;
@@ -71,7 +72,7 @@ def get_likes(postid_url_slug):
         query = '''
         SELECT *
         FROM likes
-        WHERE owner = ? 
+        WHERE owner = ?
         AND postid = ?;
         '''
 
@@ -82,7 +83,7 @@ def get_likes(postid_url_slug):
             context['message'] = "Conflict"
             context['postid'] = postid
             context['status_code'] = 409
-            #return flask.jsonify(**context), 409
+            return flask.jsonify(**context), 409
 
         query = '''
         INSERT INTO likes(owner, postid)
