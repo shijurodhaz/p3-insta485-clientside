@@ -43,7 +43,7 @@ class Comments extends React.Component{
             <a href="{owner_show_url}" style="text-decoration:none;color:black">
                 <b>{owner}</b>
             </a>
-            {text}
+            <div> {text} </div>
         )
     }
 
