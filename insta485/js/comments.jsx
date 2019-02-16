@@ -41,7 +41,7 @@ class Comments extends React.Component{
     updateComment(owner_show_url, owner, text) {
         this.state.items.push(
             <div>
-                <a href="{owner_show_url}" style={{"textDecoration:none, color:black"}}>
+                <a href="{owner_show_url}" style={{"textDecoration":"none", "color":"black"}}>
                     <b>{owner}</b>
                 </a>
                 <div> {text} </div>
