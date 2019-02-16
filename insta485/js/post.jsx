@@ -31,6 +31,7 @@ class Post extends React.Component {
         return(
              <div style={{width:'60%', border: '1px solid black', margin: '0px auto'}}>                 
                 <table style={{width:'100%', margin: '0px auto', padding:'30px'}}>                       
+                  <tbody>
                   <tr>                                                                         
                     <td style={{width:'50px'}}>                                                    
                       <a href={this.state.owner_show_url} style={{'textDecoration':'none', color:'black'}}>
@@ -46,7 +47,7 @@ class Post extends React.Component {
                       <a href={this.state.post_show_url} style={{'textDecoration':'none', color:'black'}}>{this.state.age}</a>
                     </td>                                                                      
                   </tr>                                                                        
-                                                                                               
+                  </tbody>                                                                             
                 </table>                                                                       
                 <img src={this.state.img_url} alt="image" style={{width:'100%'}} />
                                                                                                
