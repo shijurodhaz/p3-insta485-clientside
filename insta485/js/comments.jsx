@@ -13,7 +13,7 @@ class Comments extends React.Component{
 
     componentDidMount() {
         this.setState({
-            comments = [
+            comments: [
                 {
                     "text": "This is practice",
                     "owner": "rodneyss",
