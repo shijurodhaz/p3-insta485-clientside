@@ -67,4 +67,4 @@ class Comments extends React.Component{
     }
 }
 
-expore default Comments;
+export default Comments;
