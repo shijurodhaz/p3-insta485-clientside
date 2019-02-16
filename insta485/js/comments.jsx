@@ -62,7 +62,7 @@ class Comments extends React.Component{
                 <form id="comment-form" onSubmit={this.handleSubmit}>
                     <input type="text" value={this.state.value} onChange = {this.handleChange}/>
                 </form>
-            <div>
+                </div>
         );
     }
 }
