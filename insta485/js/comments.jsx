@@ -57,10 +57,12 @@ class Comments extends React.Component{
         });
 
         return (
-            {this.state.items}
-            <form id="comment-form" onSubmit={this.handleSubmit}>
-                <input type="text" value={this.state.value} onChange = {this.handleChange}/>
-            </form>
+            <div>
+                {this.state.items}
+                <form id="comment-form" onSubmit={this.handleSubmit}>
+                    <input type="text" value={this.state.value} onChange = {this.handleChange}/>
+                </form>
+            <div>
         );
     }
 }
