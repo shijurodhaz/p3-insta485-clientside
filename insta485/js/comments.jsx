@@ -34,7 +34,7 @@ class Comments extends React.Component{
 
     handleSubmit(event) {
         logname_show_url = "/u/" + this.props.logname + "/";
-        updateComment(logname_show_url, this.props.logname, this.state.value);
+        this.updateComment(logname_show_url, this.props.logname, this.state.value);
         event.preventDefault();
     }
 
