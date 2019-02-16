@@ -45,7 +45,7 @@ class Comments extends React.Component{
 
     handleSubmit(event) {
         logname_show_url = "/u/" + this.props.logname + "/";
-        updateComment(logname_show_url, this.props.logname, this.state.value);
+        this.updateComment(logname_show_url, this.props.logname, this.state.value);
         event.preventDefault();
     }
 
@@ -53,7 +53,7 @@ class Comments extends React.Component{
         //render comments
 
         this.state.comments.forEach(function(comment) {
-            updateComment(comment['owner_show_url'], comment['owner'], comment['text']);
+            this.updateComment(comment['owner_show_url'], comment['owner'], comment['text']);
         });
 
         return (
