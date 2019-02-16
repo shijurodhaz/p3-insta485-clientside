@@ -58,7 +58,6 @@ class Post extends React.Component {
                 <div style={{'marginLeft':'10px'}}>
                     <Comments url={this.props.url + 'comments/'} logname={this.props.logname}  />
                 </div>
-                        {alert("gets here")}
             </div>
         )
     }
