@@ -11,6 +11,17 @@ class Comments extends React.Component{
         this.state = { value: "", comments: [], items: [] };
     }
 
+    updateComment(owner_show_url, owner, text) {
+        this.state.items.push(
+            <div>
+                <a href="{owner_show_url}" style={{"textDecoration":"none", "color":"black"}}>
+                    <b>{owner}</b>
+                </a>
+                <div> {text} </div>
+            </div>
+        )
+    }
+
     componentDidMount() {
         this.setState({
             comments: [
@@ -34,19 +45,8 @@ class Comments extends React.Component{
 
     handleSubmit(event) {
         logname_show_url = "/u/" + this.props.logname + "/";
-        this.updateComment(logname_show_url, this.props.logname, this.state.value);
+        updateComment(logname_show_url, this.props.logname, this.state.value);
         event.preventDefault();
-    }
-
-    updateComment(owner_show_url, owner, text) {
-        this.state.items.push(
-            <div>
-                <a href="{owner_show_url}" style={{"textDecoration":"none", "color":"black"}}>
-                    <b>{owner}</b>
-                </a>
-                <div> {text} </div>
-            </div>
-        )
     }
 
     render() {
