@@ -34,7 +34,7 @@ class Post extends React.Component {
                   <tr>                                                                         
                     <td style="width:50px">                                                    
                       <a href={this.state.owner_show_url} style="text-decoration:none;color:black">
-                        <img src={this.state.owner_img_url} style="height:50px;width:50px;float:left" alt="image">
+                        <img src={this.state.owner_img_url} style="height:50px;width:50px;float:left" alt="image" />
                       </a>                                                                     
                     </td>                                                                      
                     <td style="font-size:20px">                                                
@@ -48,9 +48,9 @@ class Post extends React.Component {
                   </tr>                                                                        
                                                                                                
                 </table>                                                                       
-                <img src={this.state.img_url} alt="image" style="width:100%">
+                <img src={this.state.img_url} alt="image" style="width:100%" />
                                                                                                
-                <div ="margin-left:10px"> 
+                <div style="margin-left:10px"> 
                     <Likes url={this.props.url + 'likes/'} logname={this.props.logname}  />
                 </div>                                                              
 
