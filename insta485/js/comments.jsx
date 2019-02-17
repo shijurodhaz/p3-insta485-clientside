@@ -8,16 +8,19 @@ class Comments extends React.Component{
     constructor(props) {
         // Initialize mutable state
         super(props);
-        this.state = { value: "", comments: [], items: [] };
+        this.state = { value: "", comments: []};
+        this.get_comment_html = this.get_comment_html.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    updateComment(owner_show_url, owner, text) {
-        this.state.items.push(
+    get_comment_html(items, owner_show_url, owner, text) {
+        items.push(
             <div>
-                <a href="{owner_show_url}" style={{"textDecoration":"none", "color":"black"}}>
+                <a href={owner_show_url} style={{"textDecoration":"none", "color":"black"}}>
                     <b>{owner}</b>
                 </a>
-                <div> {text} </div>
+                <p> {text} </p>
             </div>
         )
     }
@@ -41,26 +44,37 @@ class Comments extends React.Component{
 
     handleChange(event) {
         this.setState({value: event.target.value});
+        event.preventDefault();
     }
 
     handleSubmit(event) {
-        logname_show_url = "/u/" + this.props.logname + "/";
-        this.updateComment(logname_show_url, this.props.logname, this.state.value);
+        let logname_show_url = "/u/" + this.props.logname + "/";
+        let comments = this.state.comments;
+        comments.push({"text": this.state.value, "owner": this.props.logname, "owner_show_url": logname_show_url});
+        this.setState({comments: comments});
         event.preventDefault();
     }
 
     render() {
         //render comments
+        let items = [];
+        let get_comment_html = (items, owner_show_url, owner, text) => {this.get_comment_html(items, owner_show_url, owner, text)}
 
         this.state.comments.forEach(function(comment) {
-            this.updateComment(comment['owner_show_url'], comment['owner'], comment['text']);
+            get_comment_html(items, comment['owner_show_url'], comment['owner'], comment['text']);
         });
+
 
         return (
             <div>
-                {this.state.items}
+                <table>
+                <tbody>
+                {items}
+                </tbody>
+                </table>
                 <form id="comment-form" onSubmit={this.handleSubmit}>
                     <input type="text" value={this.state.value} onChange = {this.handleChange}/>
+                    <input type="submit" name="comment" value="comment"/>
                 </form>
             </div>
         );
