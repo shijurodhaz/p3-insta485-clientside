@@ -8,38 +8,51 @@ class Comments extends React.Component{
     constructor(props) {
         // Initialize mutable state
         super(props);
-        this.state = { value: "", comments: []};
-        this.get_comment_html = this.get_comment_html.bind(this);
+        this.state = { value: "", comments: [], items: []};
+        this.add_comment = this.add_comment.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    get_comment_html(items, owner_show_url, owner, text) {
-        items.push(
-            <div>
-                <a href={owner_show_url} style={{"textDecoration":"none", "color":"black"}}>
-                    <b>{owner}</b>
-                </a>
-                <p> {text} </p>
-            </div>
-        )
-    }
+    
 
     componentDidMount() {
-        this.setState({
-            comments: [
-                {
-                    "text": "This is practice",
-                    "owner": "rodneyss",
-                    "owner_show_url": "/u/rodneyss/"
-                },
-                {
-                    "text": "This is another practice",
-                    "owner": "vedagupt",
-                    "owner_show_url": "/u/vedagupt/"
-                }
-            ]
+        this.state.comments = [
+            {
+                "text": "This is practice",
+                "owner": "rodneyss",
+                "owner_show_url": "/u/rodneyss/"
+            },
+            {
+                "text": "This is another practice",
+                "owner": "vedagupt",
+                "owner_show_url": "/u/vedagupt/"
+            }
+        ];
+        let items = this.state.items;
+        let comments = this.state.comments;
+        let self = this;
+
+        comments.forEach(function(comment) {
+            console.log("Adding comment");
+            self.add_comment(comment);
         });
+        this.setState({
+            comments: comments,
+            items: items    
+        });
+    }
+
+    add_comment(comment) {
+        this.state.comments.push(comment);
+        this.state.items.push(
+            <div>
+                <a href={comment.owner_show_url} style={{"textDecoration":"none", "color":"black"}}>
+                    <b>{comment.owner}</b>
+                </a>
+                &nbsp; {comment.text}
+            </div>
+        )
     }
 
     handleChange(event) {
@@ -49,32 +62,31 @@ class Comments extends React.Component{
 
     handleSubmit(event) {
         let logname_show_url = "/u/" + this.props.logname + "/";
+        let comment = {
+            text: this.state.value,
+            owner: this.props.logname,
+            owner_show_url: logname_show_url
+        };
+        this.add_comment(comment);
+        this.state.value = "";
+
         let comments = this.state.comments;
-        comments.push({"text": this.state.value, "owner": this.props.logname, "owner_show_url": logname_show_url});
-        this.setState({comments: comments});
+        let items = this.state.items;
+        this.setState({comments: comments, items: items});
         event.preventDefault();
     }
 
     render() {
         //render comments
-        let items = [];
-        let get_comment_html = (items, owner_show_url, owner, text) => {this.get_comment_html(items, owner_show_url, owner, text)}
-
-        this.state.comments.forEach(function(comment) {
-            get_comment_html(items, comment['owner_show_url'], comment['owner'], comment['text']);
-        });
-
-
         return (
             <div>
                 <table>
                 <tbody>
-                {items}
+                {this.state.items}
                 </tbody>
                 </table>
                 <form id="comment-form" onSubmit={this.handleSubmit}>
                     <input type="text" value={this.state.value} onChange = {this.handleChange}/>
-                    <input type="submit" name="comment" value="comment"/>
                 </form>
             </div>
         );
