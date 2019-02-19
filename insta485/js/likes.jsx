@@ -32,25 +32,24 @@ class Likes extends React.Component {
   handleClick(e) {
     e.preventDefault();
     if (this.state.logname_likes_this) {
-        this.state.num_likes--;
-        this.state.logname_likes_this = false;
-        fetch(this.props.url, {
-            method: "DELETE",
-            credentials: "same-origin",
-        });
+      this.state.num_likes -= 1;
+      this.state.logname_likes_this = false;
+      fetch(this.props.url, {
+        method: 'DELETE',
+        credentials: 'same-origin',
+      });
+    } else {
+      this.state.num_likes += 1;
+      this.state.logname_likes_this = true;
+      fetch(this.props.url, {
+        method: 'POST',
+        credentials: 'same-origin',
+      });
     }
-    else {
-        this.state.num_likes++;
-        this.state.logname_likes_this = true;
-        fetch(this.props.url, {
-            method: "POST",
-            credentials: "same-origin",
-        });
-    }
-    
+
     this.setState({
-        num_likes: this.state.num_likes,
-        logname_likes_this: this.state.logname_likes_this
+      num_likes: this.state.num_likes,
+      logname_likes_this: this.state.logname_likes_this,
     });
   }
 
@@ -60,7 +59,7 @@ class Likes extends React.Component {
       <div className="likes">
         <p>{this.state.num_likes} like{this.state.num_likes !== 1 ? 's' : ''}</p>
         <button onClick={this.handleClick}>
-            {this.state.logname_likes_this ? "unlike" : "like"}
+          {this.state.logname_likes_this ? 'unlike' : 'like'}
         </button>
       </div>
     );
