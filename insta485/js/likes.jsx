@@ -10,6 +10,7 @@ class Likes extends React.Component {
     // Initialize mutable state
     super(props);
     this.state = { num_likes: 0, logname_likes_this: false };
+    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
@@ -28,11 +29,39 @@ class Likes extends React.Component {
       .catch(error => console.log(error)); // eslint-disable-line no-console
   }
 
+  handleClick(e) {
+    e.preventDefault();
+    if (this.state.logname_likes_this) {
+        this.state.num_likes--;
+        this.state.logname_likes_this = false;
+        fetch(this.props.url, {
+            method: "DELETE",
+            credentials: "same-origin",
+        });
+    }
+    else {
+        this.state.num_likes++;
+        this.state.logname_likes_this = true;
+        fetch(this.props.url, {
+            method: "POST",
+            credentials: "same-origin",
+        });
+    }
+    
+    this.setState({
+        num_likes: this.state.num_likes,
+        logname_likes_this: this.state.logname_likes_this
+    });
+  }
+
   render() {
     // Render number of likes
     return (
       <div className="likes">
         <p>{this.state.num_likes} like{this.state.num_likes !== 1 ? 's' : ''}</p>
+        <button onClick={this.handleClick}>
+            {this.state.logname_likes_this ? "unlike" : "like"}
+        </button>
       </div>
     );
   }

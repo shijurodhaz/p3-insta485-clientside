@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import Likes from './likes';
 import Comments from './comments';
 
+// TODO: Humanize timestamp
+
 class Post extends React.Component {
     constructor(props) {
         super(props);
@@ -17,14 +19,22 @@ class Post extends React.Component {
     }
 
     componentDidMount() {
-        this.setState({
-            "age": "2017-09-28 04:33:28",
-            "img_url": "/uploads/9887e06812ef434d291e4936417d125cd594b38a.jpg",
-            "owner": "awdeorio",
-            "owner_img_url": "/uploads/e1a7c5c32973862ee15173b0259e3efdb6a391af.jpg",
-            "owner_show_url": "/u/awdeorio/",
-            "post_show_url": "/p/3/"
-        });
+       fetch(this.props.url, { credentials: 'same-origin' })                       
+        .then((response) => {                                                       
+            if (!response.ok) throw Error(response.statusText);                     
+            return response.json();                                                 
+        })                                                                          
+        .then((data) => {                                                                                                                               
+            this.setState({                                                        
+                age: data.age,
+                img_url: data.img_url,
+                owner: data.owner,
+                owner_img_url: data.owner_img_url,
+                owner_show_url: data.owner_show_url,
+                post_show_url: data.post_show_url
+            });                                                                    
+        })                                                                          
+        .catch(error => console.log(error)); // eslint-disable-line no-console 
     }
 
     render() {

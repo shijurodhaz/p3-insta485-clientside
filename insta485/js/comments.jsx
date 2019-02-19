@@ -17,30 +17,23 @@ class Comments extends React.Component{
     
 
     componentDidMount() {
-        this.state.comments = [
-            {
-                "text": "This is practice",
-                "owner": "rodneyss",
-                "owner_show_url": "/u/rodneyss/"
-            },
-            {
-                "text": "This is another practice",
-                "owner": "vedagupt",
-                "owner_show_url": "/u/vedagupt/"
-            }
-        ];
-        let items = this.state.items;
-        let comments = this.state.comments;
-        let self = this;
-
-        comments.forEach(function(comment) {
-            console.log("Adding comment");
-            self.add_comment(comment);
-        });
-        this.setState({
-            comments: comments,
-            items: items    
-        });
+        fetch(this.props.url, { credentials: 'same-origin' })                          
+        .then((response) => {                                                        
+            if (!response.ok) throw Error(response.statusText);                        
+            return response.json();                                                    
+        })                                                                           
+        .then((data) => {                                                            
+            let comments = data.comments;     
+            let self = this;
+            comments.forEach(function(comment) {
+                self.add_comment(comment);
+            });
+            this.setState({
+                comments: this.state.comments,
+                items: this.state.items
+            });
+        })                                                                           
+        .catch(error => console.log(error)); // eslint-disable-line no-console       
     }
 
     add_comment(comment) {
@@ -67,6 +60,21 @@ class Comments extends React.Component{
             owner: this.props.logname,
             owner_show_url: logname_show_url
         };
+        console.log(JSON.stringify(comment));
+        fetch(this.props.url, {
+            method: 'POST',
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(comment)
+        })
+        .then((response) => {
+            if (!response.ok) throw Error(response.statusText);
+            return response.json;
+        })
+        .catch(error => console.log(error));
+
         this.add_comment(comment);
         this.state.value = "";
 
