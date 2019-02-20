@@ -10,7 +10,7 @@ class Posts extends React.Component {
   constructor(props) {
     // Initialize mutable state
     super(props);
-    this.state = { posts: [], next_url: '/api/v1/p/' };
+    this.state = { posts: [], next_url: '/api/v1/p/', next_page: 0 };
     this.fetchData = this.fetchData.bind(this);
   }
 
@@ -20,6 +20,14 @@ class Posts extends React.Component {
   }
 
   fetchData() {
+    if (window.performance.navigation.type === 2) {
+      this.setState({
+        posts: window.history.state.posts,
+        next_url: window.history.state.next_url,
+        next_page: window.history.state.next_page,
+      });
+      return;
+    }
     if (this.state.next_url === '') {
       return;
     }
@@ -37,6 +45,7 @@ class Posts extends React.Component {
           posts: this.state.posts,
           next_url: data.next,
         });
+        window.history.replaceState(this.state, 'sjnvjs', '');
       })
       .catch(error => console.log(error)); // eslint-disable-line no-console
   }
