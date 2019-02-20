@@ -17,12 +17,8 @@ def get_likes(postid_url_slug):
     }
     """
     context = {}
-    # TODO
     if "username" not in flask.session:
-        context['message'] = "Forbidden"
-        context['status_code'] = 403
-        return flask.jsonify(**context), 403
-
+        return insta485.handle403(context)
     postid = postid_url_slug
     logname = flask.session["username"]
 

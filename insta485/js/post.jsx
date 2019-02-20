@@ -61,7 +61,7 @@ class Post extends React.Component {
         </table>
         <img src={this.state.img_url} style={{ width: '100%' }} alt="post" />
 
-        <div style={{ marginLeft: '10px' }}>
+        <div >
           <Likes url={`${this.props.url}likes/`} logname={this.props.logname} />
         </div>
 
