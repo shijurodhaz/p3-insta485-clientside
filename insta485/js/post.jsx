@@ -1,8 +1,8 @@
+import moment from 'moment';
 import React from 'react';
 import PropTypes from 'prop-types';
 import Likes from './likes';
 import Comments from './comments';
-import moment from 'moment';
 
 // TODO: Humanize timestamp
 
@@ -21,8 +21,8 @@ class Post extends React.Component {
   }
 
   componentDidMount() {
-    let x = new Date();
-    let offset_in = x.getTimezoneOffset() / 60
+    const x = new Date();
+    const offsetIn = x.getTimezoneOffset() / 60;
     fetch(this.props.url, { credentials: 'same-origin' })
       .then((response) => {
         if (!response.ok) throw Error(response.statusText);
@@ -30,7 +30,7 @@ class Post extends React.Component {
       })
       .then((data) => {
         this.setState({
-          offset: offset_in,
+          offset: offsetIn,
           age: data.age,
           img_url: data.img_url,
           owner: data.owner,
