@@ -6,7 +6,6 @@ import insta485
 def handle_post(postid):
     """Handle post requests for this endpoint."""
     data = flask.request.get_json()
-    print(data);
     if 'text' in data:
         query = '''
         INSERT INTO
