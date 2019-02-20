@@ -13,7 +13,7 @@ class Posts extends React.Component{
     constructor(props){
         // Initialize mutable state
         super(props);
-        this.state = { posts: [], items: [], next_url: '/api/v1/p/'};
+        this.state = { posts: [], next_url: '/api/v1/p/'};
         this.fetchData = this.fetchData.bind(this);
     }
 
@@ -23,6 +23,9 @@ class Posts extends React.Component{
     }
 
     fetchData() {
+        if (this.state.next_url === '') {
+            return;
+        }
         fetch(this.state.next_url, { credentials: 'same-origin' })
         .then((response) => {
             if (!response.ok) throw Error(response.statusText);
@@ -33,16 +36,9 @@ class Posts extends React.Component{
             data.results.forEach(function(result) {
                console.log(result.url);
                self.state.posts.push(result); 
-               self.state.items.push(
-               <div key={result.url}>
-                    <Post  url={result.url} logname={self.props.logname} />
-                    <br />
-               </div>
-               );
             });
             this.setState({
                 posts: this.state.posts,
-                items: this.state.items,
                 next_url: data.next
             });
          })
@@ -56,11 +52,12 @@ class Posts extends React.Component{
                   dataLength={this.state.posts.length}
                   next={this.fetchData}
                   loader={<h4>Loading...</h4>}
-                  endMessage={
-                    <p>End of posts</p>
-                  }
                   hasMore={true}>
-                  {this.state.items}                      
+                  {this.state.posts.map((post) => (
+                    <div key={post.url}>
+                        <Post url={post.url} logname={this.props.logname}  />
+                    </div>
+                  ))}
                 </InfiniteScroll>
             </div>
         );
