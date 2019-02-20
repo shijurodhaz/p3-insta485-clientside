@@ -58,7 +58,7 @@ class Likes extends React.Component {
     return (
       <div className="likes">
         <p>{this.state.num_likes} like{this.state.num_likes !== 1 ? 's' : ''}</p>
-        <button onClick={this.handleClick}>
+        <button id="like-unlike-button" onClick={this.handleClick}>
           {this.state.logname_likes_this ? 'unlike' : 'like'}
         </button>
       </div>
